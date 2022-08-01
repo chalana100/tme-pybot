@@ -1,19 +1,17 @@
-import os
-import telebot
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
 
-bot = telebot.Telebot("API key Here")
-bot = telebot.TeleBot("5307911209:AAGrZplcySur71CEvQwYezA3dInCeCycvXs")
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(f'fuck you {update.effective_user.first_name}')
+
+async def help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(f'fuck you {update.effective_user.last_name}')
 
 
-@bot.message_handler(commands=["start"])
-def send_welcome(message):
-    bot.reply_to(message, "Hellow I'm chalana chamod")
+app = ApplicationBuilder().token("5307911209:AAHZwCKAfTU0sw1Ju6Oh8-Z9sbmAyVYP9p8").build()
 
+app.add_handler(CommandHandler("start", start))
+app.add_handler(CommandHandler("help", help))
 
-@bot.message_handler(commands=["start"])   
-def send_message(message):
-    bot.send_message(message.chat.id, "https://www.fiverr.com/share/qeXrWd")
-    
-
-bot.polling()
+app.run_polling()
